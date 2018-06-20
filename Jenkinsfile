@@ -21,11 +21,7 @@ node('master') {
         }
 
         stage('Build Image') {
-         // sh 'ln -s src/supermarketAPI/Dockerfile Dockerfile'
-         sh 'pwd'
-         sh 'ls -a'
-         sh 'whoami'
-         sh 'docker build -t supermarketapi:latest .'
+         sh 'docker build -t supermarketapi:latest . -f ./src/supermarketAPI/Dockerfile'
         }
       }
     } catch (err) {

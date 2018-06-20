@@ -21,7 +21,7 @@ node('master') {
         }
 
         stage('Build Image') {
-         sh 'ln -s src/supermarketAPI/Dockerfile Dockerfile'
+         #sh 'ln -s src/supermarketAPI/Dockerfile Dockerfile'
          sh 'pwd'
          sh 'ls -a'
          sh 'docker build -t supermarketapi:latest .'

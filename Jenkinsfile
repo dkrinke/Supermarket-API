@@ -1,7 +1,8 @@
 node('master') {
-    currentBuild.result = "SUCCESS"
 
     try {
+      notifyBuild('STARTED')
+      
       withEnv ([ "GOPATH=${env.WORKSPACE}" ])  {
         stage('Check Environment') {
               sh 'go version'

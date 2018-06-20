@@ -2,7 +2,7 @@ node('master') {
     currentBuild.result = "SUCCESS"
 
     try {
-      withEnv ([ "GOPATH=${env.WORKSPACE}" ])  {
+      withEnv ([ "GOPATH=${env.WORKSPACE}/src/supermarketAPI" ])  {
         stage('Check Environment') {
               sh 'go version'
               sh 'pwd'
@@ -21,11 +21,9 @@ node('master') {
         }
 
         stage('Build Image') {
-         sh 'cd "$GOPATH/src/supermarketAPI"'
          sh 'pwd'
          sh 'ls -a'
          sh 'docker build -t supermarketapi:latest .'
-         sh 'cd ./../../..'
          sh 'pwd'
          sh 'ls -a'
         }

@@ -31,7 +31,7 @@ node('master') {
         }
 
         stage('Deploy') {
-          sshagent (credentials: ['314012a8-120d-43d5-b0ef-0a299301fae8']) {
+          sshagent (credentials: ['f88f2dc5-9c46-460a-add2-8ea22aca6d4e']) {
             sh 'ssh -o StrictHostKeyChecking=no -l daniel 192.168.1.123 uname -a'
             sh 'sudo docker stop supermarket-api'
             sh 'sudo docker run -d -it --rm -p 0.0.0.0:8080:8080 --name supermarket-api dkrinke/supermarketapi:latest'

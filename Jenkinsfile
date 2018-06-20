@@ -2,19 +2,22 @@ node('master') {
     currentBuild.result = "SUCCESS"
 
     try {
-        stage 'Prepare Environment'
+        stage 'Prepare Environment' {
           // Install the desired Go version
-              def root = tool name: 'Go 1.8', type: 'go'
+              def root = tool name: 'Go 1.6.2', type: 'go'
 
           // Export environment variables pointing to the directory where Go was installed
           withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
               sh 'go version'
           }
-        stage 'Checkout'
+        }
+        stage 'Checkout' {
           checkout scm
+        }
 
-        stage 'Build'
+        stage 'Build' {
           sh 'go install supermarketAPI'
+        }
 
     } catch (err) {
         currentBuild.result = "FAILURE"

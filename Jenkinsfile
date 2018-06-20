@@ -21,11 +21,11 @@ node('master') {
         }
 
         stage('Build Image') {
-         sh 'cd $GOPATH/src/'
+         sh 'cd $GOPATH/supermarketAPI/src/supermarketAPI'
          sh 'pwd'
          sh 'ls -a'
          sh 'docker build -t supermarketapi:latest .'
-         sh 'cd ./../..'
+         sh 'cd ./../../..'
          sh 'pwd'
          sh 'ls -a'
         }

@@ -22,8 +22,11 @@ node('master') {
 
         stage('Build Image') {
          sh 'cd src/supermarketAPI'
+         sh 'pwd'
+         sh 'ls -a'
          sh 'docker build -t supermarketapi:latest .'
          sh 'cd ./../..'
+         sh 'pwd'
          sh 'ls -a'
         }
       }

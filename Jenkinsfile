@@ -1,7 +1,8 @@
 node('master') {
-    currentBuild.result = "SUCCESS"
 
     try {
+      notifyBuild('STARTED')
+      
       withEnv ([ "GOPATH=${env.WORKSPACE}" ])  {
         stage('Check Environment') {
               sh 'go version'
@@ -31,18 +32,41 @@ node('master') {
             }
           }
 
-          stage('Deploy') {
-            sh 'scp deploy.sh daniel@192.168.1.123:~'
-            sh 'ssh daniel@192.168.1.123 ./deploy.sh'
-          }
+          stage('Deploy') {}
         }
-
-        // githubNotify status: "SUCCESS", credentialsId: "680e5762-840b-46ea-883c-c7bb0310a357	", account: "dkrinke", repo: "Supermarket-API"
-
       }
     } catch (err) {
         currentBuild.result = "FAILURE"
-        // githubNotify status: "FAILURE", credentialsId: "680e5762-840b-46ea-883c-c7bb0310a357	", account: "dkrinke", repo: "Supermarket-API"
         throw err
+    } finally {
+        // Success or failure, always send notifications
+        notifyBuild(currentBuild.result)
     }
+}
+
+
+def notifyBuild(String buildStatus = 'STARTED') {
+  // build status of null means successful
+  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+
+  // Default values
+  def colorName = 'RED'
+  def colorCode = '#FF0000'
+  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+  def summary = "${subject} (${env.BUILD_URL})"
+
+  // Override default values based on build status
+  if (buildStatus == 'STARTED') {
+    color = 'YELLOW'
+    colorCode = '#FFFF00'
+  } else if (buildStatus == 'SUCCESSFUL') {
+    color = 'GREEN'
+    colorCode = '#00FF00'
+  } else {
+    color = 'RED'
+    colorCode = '#FF0000'
+  }
+
+  // Send notifications
+  slackSend (color: colorCode, message: summary)
 }

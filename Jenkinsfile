@@ -26,7 +26,7 @@ node('master') {
 
         stage('Publish Image') {
           withDockerRegistry([ credentialsId: "7f19ca19-c670-4382-a759-978c181f242c", url: "" ]) {
-            sh 'docker push docker pull dkrinke/supermarketapi:latest'
+            sh 'docker push dkrinke/supermarketapi:latest'
           }
         }
 

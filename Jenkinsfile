@@ -2,7 +2,7 @@ node('master') {
     currentBuild.result = "SUCCESS"
 
     try {
-      withEnv ([ "GOPATH=${env.WORKSPACE}/src/supermarketAPI" ])  {
+      withEnv ([ "GOPATH=${env.WORKSPACE}" ])  {
         stage('Check Environment') {
               sh 'go version'
               sh 'pwd'

@@ -24,6 +24,7 @@ node('master') {
          // sh 'ln -s src/supermarketAPI/Dockerfile Dockerfile'
          sh 'pwd'
          sh 'ls -a'
+         sh 'whoami'
          sh 'docker build -t supermarketapi:latest .'
         }
       }

@@ -21,7 +21,7 @@ node('master') {
         }
 
         stage('Build Image') {
-         sh 'docker build -t supermarketapi:latest . -f ./src/supermarketAPI/Dockerfile'
+         sh 'docker build -t dkrinke/supermarketapi:latest . -f ./src/supermarketAPI/Dockerfile'
         }
 
         stage('Publish Image') {

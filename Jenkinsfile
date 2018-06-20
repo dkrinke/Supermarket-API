@@ -31,11 +31,18 @@ node('master') {
             }
           }
 
-          stage('Deploy') {}
+          stage('Deploy') {
+            sh 'scp deploy.sh daniel@192.168.1.123:~'
+            sh 'ssh daniel@192.168.1.123 ./deploy.sh'
+          }
         }
+
+        // githubNotify status: "SUCCESS", credentialsId: "680e5762-840b-46ea-883c-c7bb0310a357	", account: "dkrinke", repo: "Supermarket-API"
+
       }
     } catch (err) {
         currentBuild.result = "FAILURE"
+        // githubNotify status: "FAILURE", credentialsId: "680e5762-840b-46ea-883c-c7bb0310a357	", account: "dkrinke", repo: "Supermarket-API"
         throw err
     }
 }

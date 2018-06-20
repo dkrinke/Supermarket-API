@@ -20,7 +20,7 @@ node('master') {
             sh 'go test supermarketAPI'
           }
         }
-        
+
         withEnv ([ "GOPATH=${env.WORKSPACE}/src/supermarketAPI" ]) {
           stage('Build Image') {
            sh 'pwd'
@@ -30,7 +30,6 @@ node('master') {
            sh 'ls -a'
           }
         }
-      }
     } catch (err) {
         currentBuild.result = "FAILURE"
         throw err

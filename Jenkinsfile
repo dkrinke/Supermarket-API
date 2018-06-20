@@ -2,6 +2,7 @@ node('master') {
     currentBuild.result = "SUCCESS"
 
     try {
+      withEnv ([ "GOPATH=${env.WORKSPACE}/src/supermarketAPI" ])  {
         stage('Check Environment') {
               sh 'go version'
               sh 'pwd'
@@ -11,25 +12,21 @@ node('master') {
           checkout scm
         }
 
-        withEnv ([ "GOPATH=${env.WORKSPACE}" ])  {
-          stage('Build') {
-            sh 'go install supermarketAPI'
-          }
-
-          stage('Test') {
-            sh 'go test supermarketAPI'
-          }
+        stage('Build') {
+          sh 'go install supermarketAPI'
         }
 
-        withEnv ([ "GOPATH=${env.WORKSPACE}/src/supermarketAPI" ]) {
-          stage('Build Image') {
-           sh 'pwd'
-           sh 'ls -a'
-           sh 'docker build -t supermarketapi:latest .'
-           sh 'pwd'
-           sh 'ls -a'
-          }
+        stage('Test') {
+          sh 'go test supermarketAPI'
         }
+
+        stage('Build Image') {
+         sh 'cd "$GOPATH\src\supermarketAPI"'
+         sh 'pwd'
+         sh 'ls -a'
+         sh 'docker build -t supermarketapi:latest .'
+        }
+      }
     } catch (err) {
         currentBuild.result = "FAILURE"
         throw err

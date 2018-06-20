@@ -34,12 +34,12 @@ node('master') {
           stage('Deploy') {}
         }
 
-        githubNotify status: "SUCCESS", credentialsId: "680e5762-840b-46ea-883c-c7bb0310a357	", account: "dkrinke", repo: "Supermarket-API"
+        // githubNotify status: "SUCCESS", credentialsId: "680e5762-840b-46ea-883c-c7bb0310a357	", account: "dkrinke", repo: "Supermarket-API"
 
       }
     } catch (err) {
         currentBuild.result = "FAILURE"
-        githubNotify status: "FAILURE", credentialsId: "680e5762-840b-46ea-883c-c7bb0310a357	", account: "dkrinke", repo: "Supermarket-API"
+        // githubNotify status: "FAILURE", credentialsId: "680e5762-840b-46ea-883c-c7bb0310a357	", account: "dkrinke", repo: "Supermarket-API"
         throw err
     }
 }

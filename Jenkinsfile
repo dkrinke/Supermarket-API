@@ -19,6 +19,13 @@ node('master') {
         stage('Test') {
           sh 'go test supermarketAPI'
         }
+
+        stage('Build Image') {
+         sh 'cd src/supermarketAPI'
+         sh 'docker build -t supermarketapi:latest .'
+         sh 'cd ./../..'
+         sh 'ls -a'
+        }
       }
     } catch (err) {
         currentBuild.result = "FAILURE"

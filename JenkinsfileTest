@@ -31,7 +31,7 @@ node('master') {
         }
 
         stage('Deploy') {
-            sh 'ssh daniel@192.168.1.123 ./deploy'
+            sh 'ssh daniel@192.168.1.123 ./deploy.sh'
 
         }
       }

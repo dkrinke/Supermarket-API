@@ -31,11 +31,13 @@ node('master') {
         }
 
         stage('Deploy') {
-          sh 'ssh daniel@192.168.1.123'
-          sh 'docker ps'
-          sh 'docker stop supermarket-api'
-          sh 'docker run -d -p 8080:8080 dkrinke/supermarketapi:latest'
-          sh 'exit'
+          sshagent (credentials: ['f88f2dc5-9c46-460a-add2-8ea22aca6d4e']) {
+            sh 'ssh daniel@192.168.1.123'
+            sh 'docker ps'
+            sh 'docker stop supermarket-api'
+            sh 'docker run -d -p 8080:8080 dkrinke/supermarketapi:latest'
+            sh 'exit'
+          }
         }
       }
     } catch (err) {

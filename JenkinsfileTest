@@ -31,7 +31,7 @@ node('master') {
         }
 
         stage('Deploy') {
-            sh 'ssh daniel@192.168.1.123 "$( cat <<'EOT'
+            sh 'ssh daniel@192.168.1.123 "$( cat <<"EOT"
             echo "docker ps"
             echo "docker stop supermarket-api"
             echo "docker run -d -p 8080:8080 dkrinke/supermarketapi:latest"

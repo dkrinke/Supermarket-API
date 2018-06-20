@@ -21,7 +21,7 @@ node('master') {
         }
 
         stage('Build Image') {
-         sh 'cd ./src/'
+         sh 'cd $GOPATH/src/'
          sh 'pwd'
          sh 'ls -a'
          sh 'docker build -t supermarketapi:latest .'

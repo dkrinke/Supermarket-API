@@ -2,7 +2,7 @@ node('master') {
 
     try {
       notifyBuild('STARTED')
-      
+
       withEnv ([ "GOPATH=${env.WORKSPACE}" ])  {
         stage('Check Environment') {
               sh 'go version'
@@ -14,6 +14,7 @@ node('master') {
         }
 
         stage('Build') {
+          sh 'go get github.com/gorilla/mux'
           sh 'go install supermarketAPI'
         }
 

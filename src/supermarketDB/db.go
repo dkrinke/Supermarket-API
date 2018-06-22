@@ -83,3 +83,32 @@ func AddProduce(produce produce.Produce) produce.Produce {
 
 	return produce
 }
+
+func DeleteProduce(code string) bool {
+
+	var wg sync.WaitGroup
+	var produceFound bool = false
+
+	// Start async task to delete from db
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		var index int
+
+		for i, produce := range database {
+			if produce.Code == code {
+				produceFound = true
+				index = i
+			}
+		}
+
+		if(produceFound) {
+			copy(database[index:], database[index+1:]) // Shift a[i+1:] left one index
+			database = database[:len(database)-1]     // Truncate slice
+		}
+	}()
+
+	wg.Wait() // Wait for read from the db to complete
+
+	return produceFound
+}

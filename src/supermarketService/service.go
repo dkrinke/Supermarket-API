@@ -10,22 +10,27 @@ import (
 )
 
 // Returned on success
-type SuccessObject struct {
+type ProduceResponseObject struct {
 	Result  string
 	Message string
 	Produce produce.Produce
 }
 
 // Returned on failure
-type FailureObject struct {
+type ResponseObject struct {
 	Result  string
 	Message string
+}
+
+// Delete request
+type DeleteRequestObject struct {
+	Code string
 }
 
 func GetAllProduce(w http.ResponseWriter, r *http.Request) {
 
 	// Retrieve all produce from db
-	var locatedProduce = db.ReadAll()
+  locatedProduce := db.ReadAll()
 	json.NewEncoder(w).Encode(locatedProduce)
 }
 
@@ -34,8 +39,16 @@ func GetProduceByCode(w http.ResponseWriter, r *http.Request) {
 	code := getCode(r)
 
 	// Retrieve produce with matching code from db
-	var locatedProduce = db.Read(code)
-	json.NewEncoder(w).Encode(locatedProduce)
+  locatedBoolean, locatedProduce := db.Read(code)
+
+	if locatedBoolean {
+		json.NewEncoder(w).Encode(locatedProduce)
+	} else {
+		var failureObject ResponseObject
+		failureObject.Result = "Failure"
+		failureObject.Message = "Could not locate Produce with this code"
+		json.NewEncoder(w).Encode(failureObject)
+	}
 }
 
 func AddProduce(w http.ResponseWriter, r *http.Request) {
@@ -54,17 +67,49 @@ func AddProduce(w http.ResponseWriter, r *http.Request) {
 	if resultBoolean {
 		// Build success object
 		var savedProduce = db.AddProduce(incomingProduce)
-		var resultObject SuccessObject
+		var resultObject ProduceResponseObject
 		resultObject.Result = resultString
 		resultObject.Message = resultMessage
 		resultObject.Produce = savedProduce
 		json.NewEncoder(w).Encode(resultObject)
 	} else {
 		// Build failure object
-		var resultObject FailureObject
+		var resultObject ResponseObject
 		resultObject.Result = resultString
 		resultObject.Message = resultMessage
 		json.NewEncoder(w).Encode(resultObject)
+	}
+}
+
+func DeleteProduce(w http.ResponseWriter, r *http.Request) {
+
+	decoder := json.NewDecoder(r.Body)
+
+	var incomingDeleteRequest DeleteRequestObject
+	err := decoder.Decode(&incomingDeleteRequest)
+	if err != nil {
+		panic(err)
+	}
+
+	var code = incomingDeleteRequest.Code
+
+	if(validateCode(code)) {
+		if(db.DeleteProduce(code)) {
+			var successObject ResponseObject
+			successObject.Result = "Success"
+			successObject.Message = "Produce removed"
+			json.NewEncoder(w).Encode(successObject)
+		} else {
+			var failureObject ResponseObject
+			failureObject.Result = "Failure"
+			failureObject.Message = "Could not locate Produce with this code"
+			json.NewEncoder(w).Encode(failureObject)
+		}
+	} else {
+		var failureObject ResponseObject
+		failureObject.Result = "Failure"
+		failureObject.Message = "The Produce code failed validation"
+		json.NewEncoder(w).Encode(failureObject)
 	}
 }
 

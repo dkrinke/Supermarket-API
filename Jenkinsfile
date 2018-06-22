@@ -19,7 +19,7 @@ node('master') {
         }
 
         stage('Test') {
-          sh 'go test supermarketAPI'
+          sh 'go test ./...'
         }
 
         if (env.BRANCH_NAME == 'master') {

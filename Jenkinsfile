@@ -33,7 +33,10 @@ node('master') {
             }
           }
 
-          stage('Deploy') {}
+          stage('Deploy') {
+            sh 'scp deploy.sh daniel@192.168.1.123:~'
+            sh 'ssh daniel@192.168.1.123 ./deploy.sh'
+          }
         }
       }
     } catch (err) {

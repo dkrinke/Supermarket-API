@@ -14,7 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 #### GitHub
 1. Clone this repo
 2. Set the GOPATH to the route directory
-3. Run go install github.com/gorilla/mux
+3. Run go get github.com/gorilla/mux
 
 #### DockerHub
 1. Run: docker pull dkrinke/supermarketapi:latest

@@ -17,10 +17,14 @@ func GetAllProduce(w http.ResponseWriter, r *http.Request) {
 
 func GetProduceByCode(w http.ResponseWriter, r *http.Request) {
 
-	vars := mux.Vars(r) // Get url variables
-	code := vars["code"] // Get variable which matching key "code"
+  code := getCode(r)
 
   // Retrieve produce with matching code from db
 	var locatedProduce produce.Produce = db.Read(code)
 	json.NewEncoder(w).Encode(locatedProduce)
+}
+
+func getCode(r *http.Request) string {
+  vars := mux.Vars(r) // Get url variables
+	return vars["code"] // Get variable which matching key "code"
 }

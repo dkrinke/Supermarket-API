@@ -11,22 +11,22 @@ var (
 		produce.Produce{
 			Name:  "Lettuce",
 			Code:  "A12T-4GH7-QPL9-3N4M",
-			Price: 3.46,
+			Price: "$3.46",
 		},
 		produce.Produce{
 			Name:  "Peach",
 			Code:  "E5T6-9UI3-TH15-QR88",
-			Price: 2.99,
+			Price: "$2.99",
 		},
 		produce.Produce{
 			Name:  "Green Pepper",
 			Code:  "YRT6-72AS-K736-L4AR",
-			Price: 0.79,
+			Price: "$0.79",
 		},
 		produce.Produce{
 			Name:  "Gala Apple",
 			Code:  "TQ4C-VV6T-75ZX-1RMR",
-			Price: 3.59,
+			Price: "$3.59",
 		},
 	}
 )
@@ -67,4 +67,19 @@ func ReadAll() []produce.Produce {
 	wg.Wait() // Wait for read from the db to complete
 
 	return locatedProduce
+}
+
+func AddProduce(produce produce.Produce) produce.Produce {
+  var wg sync.WaitGroup
+
+  // Start async task to write to db
+  wg.Add(1)
+  go func() {
+    defer wg.Done()
+    database = append(database, produce)
+  }()
+
+  wg.Wait() // Wait for read from the db to complete
+
+  return produce
 }

@@ -6,5 +6,5 @@ import ()
 type Produce struct {
 	Name  string
 	Code  string
-	Price float64
+	Price string
 }

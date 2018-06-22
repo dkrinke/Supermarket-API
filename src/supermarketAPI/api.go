@@ -29,7 +29,3 @@ func main() {
 	fmt.Println("Running server!")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
-
-func returnTrueForFirstTest() bool {
-	return true
-}

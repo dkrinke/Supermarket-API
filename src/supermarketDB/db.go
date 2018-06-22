@@ -32,8 +32,9 @@ var (
 )
 
 // Retrieve produce with matching code
-func Read(code string) produce.Produce {
+func Read(code string) (bool, produce.Produce) {
 	var locatedProduce produce.Produce
+	var located = false
 	var wg sync.WaitGroup
 
 	// Start async task to read from db
@@ -43,13 +44,14 @@ func Read(code string) produce.Produce {
 		for _, produce := range database {
 			if produce.Code == code {
 				locatedProduce = produce
+				located = true
 			}
 		}
 	}()
 
 	wg.Wait() // Wait for read from the db to complete
 
-	return locatedProduce
+	return located, locatedProduce
 }
 
 // Retrieve all produce

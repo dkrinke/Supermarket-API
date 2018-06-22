@@ -25,6 +25,7 @@ func main() {
 	router.HandleFunc("/healthcheck", healthCheck).Methods("GET")
 	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", service.GetAllProduce).Methods("GET")
 	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/{code}", service.GetProduceByCode).Methods("GET")
+	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", service.AddProduce).Methods("POST")
 
 	fmt.Println("Running server!")
 	log.Fatal(http.ListenAndServe(":8080", router))

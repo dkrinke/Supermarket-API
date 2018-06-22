@@ -10,7 +10,7 @@ func TestReadAll(t *testing.T) {
   // Test Data
   testNameList := []string{"Lettuce", "Peach", "Green Pepper", "Gala Apple"}
   testCodeList := []string{"A12T-4GH7-QPL9-3N4M", "E5T6-9UI3-TH15-QR88", "YRT6-72AS-K736-L4AR", "TQ4C-VV6T-75ZX-1RMR"}
-  testPriceList := []float64{3.46, 2.99, 0.79, 3.59}
+  testPriceList := []string{"$3.46", "$2.99", "$0.79", "$3.59"}
 
 	result := ReadAll()
 
@@ -22,7 +22,7 @@ func TestReadAll(t *testing.T) {
       t.Errorf("Result[%d] was incorrect, got: %s, want: %s.", i, produce.Code, testCodeList[i])
     }
     if produce.Price != testPriceList[i] {
-      t.Errorf("Result[%d] was incorrect, got: %.2f, want: %.2f.", i, produce.Price, testPriceList[i])
+      t.Errorf("Result[%d] was incorrect, got: %s, want: %s.", i, produce.Price, testPriceList[i])
     }
 	}
 }
@@ -44,8 +44,8 @@ func TestReadLettuceCode(t *testing.T) {
 
 func TestReadLettucePrice(t *testing.T) {
 	result := Read("A12T-4GH7-QPL9-3N4M")
-	if result.Price != 3.46 {
-		t.Errorf("Result was incorrect, got: %.2f, want: 3.46.", result.Price)
+	if result.Price != "$3.46" {
+		t.Errorf("Result was incorrect, got: %s, want: 3.46.", result.Price)
 	}
 }
 
@@ -66,8 +66,8 @@ func TestReadPeachCode(t *testing.T) {
 
 func TestReadPeachPrice(t *testing.T) {
 	result := Read("E5T6-9UI3-TH15-QR88")
-	if result.Price != 2.99 {
-		t.Errorf("Result was incorrect, got: %.2f, want: 2.99.", result.Price)
+	if result.Price != "$2.99" {
+		t.Errorf("Result was incorrect, got: %s, want: 2.99.", result.Price)
 	}
 }
 
@@ -88,8 +88,8 @@ func TestReadGreenPepperCode(t *testing.T) {
 
 func TestReadGreenPepperPrice(t *testing.T) {
 	result := Read("YRT6-72AS-K736-L4AR")
-	if result.Price != 0.79 {
-		t.Errorf("Result was incorrect, got: %.2f, want: 0.79.", result.Price)
+	if result.Price != "$0.79" {
+		t.Errorf("Result was incorrect, got: %s, want: 0.79.", result.Price)
 	}
 }
 
@@ -110,7 +110,7 @@ func TestReadGalaAppleCode(t *testing.T) {
 
 func TestReadGalaApplePrice(t *testing.T) {
 	result := Read("TQ4C-VV6T-75ZX-1RMR")
-	if result.Price != 3.59 {
-		t.Errorf("Result was incorrect, got: %.2f, want: 3.59.", result.Price)
+	if result.Price != "$3.59" {
+		t.Errorf("Result was incorrect, got: %s, want: 3.59.", result.Price)
 	}
 }

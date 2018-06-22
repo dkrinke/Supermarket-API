@@ -6,7 +6,7 @@ import (
 )
 
 var (
-  // db instantiated with default data
+	// db instantiated with default data
 	database = []produce.Produce{
 		produce.Produce{
 			Name:  "Lettuce",
@@ -36,8 +36,8 @@ func Read(code string) produce.Produce {
 	var locatedProduce produce.Produce
 	var wg sync.WaitGroup
 
-  // Start async task to read from db
-  wg.Add(1)
+	// Start async task to read from db
+	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		for _, produce := range database {
@@ -57,8 +57,8 @@ func ReadAll() []produce.Produce {
 	var wg sync.WaitGroup
 	var locatedProduce []produce.Produce
 
-  // Start async task to read from db
-  wg.Add(1)
+	// Start async task to read from db
+	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		locatedProduce = database
@@ -70,16 +70,16 @@ func ReadAll() []produce.Produce {
 }
 
 func AddProduce(produce produce.Produce) produce.Produce {
-  var wg sync.WaitGroup
+	var wg sync.WaitGroup
 
-  // Start async task to write to db
-  wg.Add(1)
-  go func() {
-    defer wg.Done()
-    database = append(database, produce)
-  }()
+	// Start async task to write to db
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		database = append(database, produce)
+	}()
 
-  wg.Wait() // Wait for read from the db to complete
+	wg.Wait() // Wait for read from the db to complete
 
-  return produce
+	return produce
 }

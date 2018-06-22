@@ -5,7 +5,7 @@ import "supermarketProduce"
 
 // Test Validate Produce
 func TestValidateProducePass(t *testing.T) {
-  var produce = produce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1.20"}
+	var produce = produce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1.20"}
 	_, _, resultBoolean := validateProduce(produce)
 	if resultBoolean != true {
 		t.Errorf("Result was incorrect, got: %t, want: true.", resultBoolean)
@@ -13,7 +13,7 @@ func TestValidateProducePass(t *testing.T) {
 }
 
 func TestValidateProduceFailure(t *testing.T) {
-  var produce = produce.Produce{Name: "Green Apples!", Code: "123A-123A-123A-123A", Price: "$1.20"}
+	var produce = produce.Produce{Name: "Green Apples!", Code: "123A-123A-123A-123A", Price: "$1.20"}
 	_, _, resultBoolean := validateProduce(produce)
 	if resultBoolean != false {
 		t.Errorf("Result was incorrect, got: %t, want: true.", resultBoolean)
@@ -87,7 +87,7 @@ func TestValidatePricePass_1(t *testing.T) {
 }
 
 func TestValidatePriceFailure_1(t *testing.T) {
-  // Invalid Price
+	// Invalid Price
 	result := validatePrice("$1.212")
 	if result != false {
 		t.Errorf("Result was incorrect, got: %t, want: false.", result)
@@ -100,7 +100,6 @@ func TestValidatePriceFailure_2(t *testing.T) {
 		t.Errorf("Result was incorrect, got: %t, want: false.", result)
 	}
 }
-
 
 func TestValidatePriceFailure_3(t *testing.T) {
 	result := validatePrice("$1")

@@ -2,28 +2,26 @@ package db
 
 import "testing"
 
-
-
 // Test Read All
 func TestReadAll(t *testing.T) {
 
-  // Test Data
-  testNameList := []string{"Lettuce", "Peach", "Green Pepper", "Gala Apple"}
-  testCodeList := []string{"A12T-4GH7-QPL9-3N4M", "E5T6-9UI3-TH15-QR88", "YRT6-72AS-K736-L4AR", "TQ4C-VV6T-75ZX-1RMR"}
-  testPriceList := []string{"$3.46", "$2.99", "$0.79", "$3.59"}
+	// Test Data
+	testNameList := []string{"Lettuce", "Peach", "Green Pepper", "Gala Apple"}
+	testCodeList := []string{"A12T-4GH7-QPL9-3N4M", "E5T6-9UI3-TH15-QR88", "YRT6-72AS-K736-L4AR", "TQ4C-VV6T-75ZX-1RMR"}
+	testPriceList := []string{"$3.46", "$2.99", "$0.79", "$3.59"}
 
 	result := ReadAll()
 
-  for i, produce := range result {
-    if produce.Name != testNameList[i] {
-      t.Errorf("Result[%d] was incorrect, got: %s, want: %s.", i, produce.Name, testNameList[i])
-    }
-    if produce.Code != testCodeList[i] {
-      t.Errorf("Result[%d] was incorrect, got: %s, want: %s.", i, produce.Code, testCodeList[i])
-    }
-    if produce.Price != testPriceList[i] {
-      t.Errorf("Result[%d] was incorrect, got: %s, want: %s.", i, produce.Price, testPriceList[i])
-    }
+	for i, produce := range result {
+		if produce.Name != testNameList[i] {
+			t.Errorf("Result[%d] was incorrect, got: %s, want: %s.", i, produce.Name, testNameList[i])
+		}
+		if produce.Code != testCodeList[i] {
+			t.Errorf("Result[%d] was incorrect, got: %s, want: %s.", i, produce.Code, testCodeList[i])
+		}
+		if produce.Price != testPriceList[i] {
+			t.Errorf("Result[%d] was incorrect, got: %s, want: %s.", i, produce.Price, testPriceList[i])
+		}
 	}
 }
 

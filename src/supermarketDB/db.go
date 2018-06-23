@@ -121,9 +121,9 @@ func DeleteProduce(code string) bool {
 			}
 		}
 
-		if(produceFound) {
+		if produceFound {
 			copy(database[index:], database[index+1:]) // Shift a[i+1:] left one index
-			database = database[:len(database)-1]     // Truncate slice
+			database = database[:len(database)-1]      // Truncate slice
 		}
 	}()
 

@@ -30,7 +30,7 @@ type DeleteRequestObject struct {
 func GetAllProduce(w http.ResponseWriter, r *http.Request) {
 
 	// Retrieve all produce from db
-  locatedProduce := db.ReadAll()
+	locatedProduce := db.ReadAll()
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(locatedProduce)
 }
@@ -40,7 +40,7 @@ func GetProduceByCode(w http.ResponseWriter, r *http.Request) {
 	code := getCode(r)
 
 	// Retrieve produce with matching code from db
-  locatedBoolean, locatedProduce := db.Read(code)
+	locatedBoolean, locatedProduce := db.Read(code)
 
 	if locatedBoolean {
 		var successObject ProduceResponseObject
@@ -110,8 +110,8 @@ func DeleteProduce(w http.ResponseWriter, r *http.Request) {
 
 	var code = incomingDeleteRequest.Code
 
-	if(validateCode(code)) {
-		if(db.DeleteProduce(code)) {
+	if validateCode(code) {
+		if db.DeleteProduce(code) {
 			var successObject ResponseObject
 			successObject.Result = "Success"
 			successObject.Message = "Produce removed"

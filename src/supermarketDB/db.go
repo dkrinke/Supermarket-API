@@ -71,19 +71,36 @@ func ReadAll() []produce.Produce {
 	return locatedProduce
 }
 
-func AddProduce(produce produce.Produce) produce.Produce {
+func AddProduce(produce produce.Produce) (bool, produce.Produce) {
+
+	var added = false
 	var wg sync.WaitGroup
 
 	// Start async task to write to db
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		database = append(database, produce)
+		if isCodeUnique(produce.Code) {
+			database = append(database, produce)
+			added = true
+		}
 	}()
 
 	wg.Wait() // Wait for read from the db to complete
 
-	return produce
+	return added, produce
+}
+
+func isCodeUnique(code string) bool {
+	var unique = true
+
+	for _, produce := range database {
+		if produce.Code == code {
+			unique = false
+			break
+		}
+	}
+	return unique
 }
 
 func DeleteProduce(code string) bool {

@@ -31,6 +31,7 @@ func GetAllProduce(w http.ResponseWriter, r *http.Request) {
 
 	// Retrieve all produce from db
   locatedProduce := db.ReadAll()
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(locatedProduce)
 }
 
@@ -42,11 +43,17 @@ func GetProduceByCode(w http.ResponseWriter, r *http.Request) {
   locatedBoolean, locatedProduce := db.Read(code)
 
 	if locatedBoolean {
-		json.NewEncoder(w).Encode(locatedProduce)
+		var successObject ProduceResponseObject
+		successObject.Result = "Success"
+		successObject.Message = "Produce located"
+		successObject.Produce = locatedProduce
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(successObject)
 	} else {
-		var failureObject ResponseObject
+		var failureObject ProduceResponseObject
 		failureObject.Result = "Failure"
 		failureObject.Message = "Could not locate Produce with this code"
+		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(failureObject)
 	}
 }
@@ -66,17 +73,27 @@ func AddProduce(w http.ResponseWriter, r *http.Request) {
 
 	if resultBoolean {
 		// Build success object
-		var savedProduce = db.AddProduce(incomingProduce)
-		var resultObject ProduceResponseObject
-		resultObject.Result = resultString
-		resultObject.Message = resultMessage
-		resultObject.Produce = savedProduce
-		json.NewEncoder(w).Encode(resultObject)
+		var added, savedProduce = db.AddProduce(incomingProduce)
+		if added {
+			var resultObject ProduceResponseObject
+			resultObject.Result = resultString
+			resultObject.Message = resultMessage
+			resultObject.Produce = savedProduce
+			w.WriteHeader(http.StatusCreated)
+			json.NewEncoder(w).Encode(resultObject)
+		} else {
+			var resultObject ResponseObject
+			resultObject.Result = "Failure"
+			resultObject.Message = "Code is not unique"
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(resultObject)
+		}
 	} else {
 		// Build failure object
 		var resultObject ResponseObject
 		resultObject.Result = resultString
 		resultObject.Message = resultMessage
+		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(resultObject)
 	}
 }
@@ -98,17 +115,20 @@ func DeleteProduce(w http.ResponseWriter, r *http.Request) {
 			var successObject ResponseObject
 			successObject.Result = "Success"
 			successObject.Message = "Produce removed"
+			w.WriteHeader(http.StatusOK)
 			json.NewEncoder(w).Encode(successObject)
 		} else {
 			var failureObject ResponseObject
 			failureObject.Result = "Failure"
 			failureObject.Message = "Could not locate Produce with this code"
+			w.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(w).Encode(failureObject)
 		}
 	} else {
 		var failureObject ResponseObject
 		failureObject.Result = "Failure"
 		failureObject.Message = "The Produce code failed validation"
+		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(failureObject)
 	}
 }

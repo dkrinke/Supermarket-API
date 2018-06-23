@@ -7,11 +7,7 @@ import "supermarketProduce"
 func TestAddProduce(t *testing.T) {
 
 	var produce = produce.Produce{Name: "Added Produce", Code: "123A-456B-789C-DEFG", Price: "$99.99"}
-	var addProduceResult = AddProduce(produce)
-
-	t.Log(addProduceResult.Name)
-	t.Log(addProduceResult.Code)
-	t.Log(addProduceResult.Price)
+	_, addProduceResult := AddProduce(produce)
 
 	if addProduceResult.Name != produce.Name {
 		t.Errorf("Result was incorrect, got: %s, want: %s.", addProduceResult.Name, produce.Name)
@@ -34,7 +30,7 @@ func TestDeleteProduce(t *testing.T) {
 
 	deleteResult := DeleteProduce("123A-456B-789C-DEFG")
 	if deleteResult != true {
-		t.Errorf("Result was incorrect, got: %s, want: true.", deleteResult)
+		t.Errorf("Result was incorrect, got: %t, want: true.", deleteResult)
 	}
 
 	secondReadResultBool, _ := Read("123A-456B-789C-DEFG")

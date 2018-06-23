@@ -50,8 +50,14 @@ http://api.krinkes.com/
   - Payload:  
     {  
     &nbsp;&nbsp;&nbsp;&nbsp;"Name": "Green Apples",  
-    &nbsp;&nbsp;&nbsp;&nbsp;"Code": "123A-123A-123A-124A", // Assumed that a unique code will be provided  
+    &nbsp;&nbsp;&nbsp;&nbsp;"Code": "123A-123A-123A-124A",
     &nbsp;&nbsp;&nbsp;&nbsp;"Price": "$1.11"  
+    }  
+  - Returns: Success or Failure with messages containing the reason
+- DELETE http://api.krinkes.com/api/v1/produce
+  - Payload:  
+    {  
+    &nbsp;&nbsp;&nbsp;&nbsp;"Code": "123A-123A-123A-124A",
     }  
   - Returns: Success or Failure with messages containing the reason
 

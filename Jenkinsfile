@@ -5,41 +5,52 @@ node('master') {
 
       withEnv ([ "GOPATH=${env.WORKSPACE}" ])  {
         stage('Check Environment') {
+              //For debugging purposes (Check go version and path to working directory)
               sh 'go version'
               sh 'pwd'
         }
 
         stage('Checkout') {
+          //Check out the code
           checkout scm
         }
 
         stage('Build') {
+          //Install gorilla/mux dependency
           sh 'go get github.com/gorilla/mux'
+          //Build the supermarketAPI app
           sh 'go install supermarketAPI'
         }
 
         stage('Test') {
+          //Run tests
           sh 'go test ./...'
         }
 
+        //Only execute the below commands if in master branch
         if (env.BRANCH_NAME == 'master') {
           stage('Build Image') {
-           sh 'docker build -t dkrinke/supermarketapi:latest . -f ./src/supermarketAPI/Dockerfile'
+            //Build the docker image
+            sh 'docker build -t dkrinke/supermarketapi:latest . -f ./src/supermarketAPI/Dockerfile'
           }
 
           stage('Publish Image') {
+            //Publish the docker image to dockerhub
             withDockerRegistry([ credentialsId: "7f19ca19-c670-4382-a759-978c181f242c", url: "" ]) {
               sh 'docker push dkrinke/supermarketapi:latest'
             }
           }
 
           stage('Deploy') {
+            //Copy over the deployment script to the api server
             sh 'scp deploy.sh daniel@192.168.1.123:~'
+            //Run the deployment script
             sh 'ssh daniel@192.168.1.123 ./deploy.sh'
           }
         }
       }
     } catch (err) {
+        //Set result to failure if any error has occurred
         currentBuild.result = "FAILURE"
         throw err
     } finally {

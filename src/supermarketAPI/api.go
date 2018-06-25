@@ -4,6 +4,7 @@ import (
 	"encoding/json"          //For creating JSON responses
 	"fmt"                    //STDOUT
 	"github.com/gorilla/mux" //Router that will take requests and decide what should be done (go get github.com/gorilla/mux)
+	"io/ioutil"              //Implements some I/O utility functions
 	"log"                    //Logs when the server exits
 	"net/http"               //Provides the representation of HTTP requests, responses, and is Responsible for running the server
 	"supermarketService"     //Service used to process Produce requests
@@ -11,8 +12,15 @@ import (
 
 //handler returns html to the client.
 func handler(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadFile("html/supermarketAPI.html") //Read from html file into bytes
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	str := string(b) // convert content to a 'string'
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, "<!DOCTYPE html><html><body><h1>SupermarketAPI</h1></body></html>")
+	fmt.Fprint(w, str)
 	return
 }
 
@@ -25,7 +33,7 @@ func healthCheck(w http.ResponseWriter, r *http.Request) {
 func main() {
 	var router = mux.NewRouter()
 
-	router.HandleFunc("/", handler).Methods("GET") //Will provide informaton about the application
+	router.HandleFunc("/", handler).Methods("GET")                //Will provide informaton about the application
 	router.HandleFunc("/healthcheck", healthCheck).Methods("GET") //Health Check
 
 	/**********************Produce API Version One*******************************/

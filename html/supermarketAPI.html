@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>SupermarketAPI</h1>
+
+  <p>Supported Endpoints</p>
+  <ul>
+    <li>GET
+      <ul>
+        <li>Health check: <a href="http://api.krinkes.com/healthcheck">http://api.krinkes.com/healthcheck</a>
+          <ul>
+            <li>Returns: "Still Alive!"</li>
+          </ul>
+        </li>
+        <li>Get all produce: <a href="http://api.krinkes.com/api/v1/produce">http://api.krinkes.com/api/v1/produce</a>
+          <ul>
+            <li>Returns: List of Produce</li>
+          </ul></li>
+        <li>Get produce by code: <a href="http://api.krinkes.com/api/v1/produce/A12T-4GH7-QPL9-3N4M">http://api.krinkes.com/api/v1/produce/A12T-4GH7-QPL9-3N4M</a>
+          <ul>
+            <li>Returns: A single Produce that matches the provided code</li>
+          </ul></li>
+      </ul>
+    </li>
+    <li>POST
+      <ul>
+        <li>Add produce: <a href="http://api.krinkes.com/api/v1/produce">http://api.krinkes.com/api/v1/produce</a>
+          <ul>
+            <li>Payload:<br>
+              {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"Name": "Green Apples",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"Code": "123A-123A-123A-124A",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"Price": "$1.11"<br>
+              }
+            </li>
+            <li>Returns: Success or Failure with messages containing the reason</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>DELETE
+      <ul>
+        <li>Remove produce: <a href="http://api.krinkes.com/api/v1/produce">http://api.krinkes.com/api/v1/produce</a>
+          <ul>
+            <li>Payload:<br>
+              {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;"Code": "123A-123A-123A-124A",<br>
+              }
+            </li>
+            <li>Returns: Success or Failure with messages containing the reason</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+  </ul>
+</body>
+</html>

@@ -71,6 +71,40 @@ func ReadAll() []produce.Produce {
 	return locatedProduce
 }
 
+func ResetData() {
+	var wg sync.WaitGroup //Create WaitGroup
+
+	//Start async task to read from db
+	wg.Add(1)   //Add one to WaitGroup
+	go func() { //Start GoRoutine
+		defer wg.Done() //Execute at the end of this Routine
+		database = []produce.Produce{
+			produce.Produce{ //Required Lettuce
+				Name:  "Lettuce",
+				Code:  "A12T-4GH7-QPL9-3N4M",
+				Price: "$3.46",
+			},
+			produce.Produce{ //Required Peach
+				Name:  "Peach",
+				Code:  "E5T6-9UI3-TH15-QR88",
+				Price: "$2.99",
+			},
+			produce.Produce{ //Required Green Pepper
+				Name:  "Green Pepper",
+				Code:  "YRT6-72AS-K736-L4AR",
+				Price: "$0.79",
+			},
+			produce.Produce{ //Required Gala Apple
+				Name:  "Gala Apple",
+				Code:  "TQ4C-VV6T-75ZX-1RMR",
+				Price: "$3.59",
+			},
+		}
+	}()
+
+	wg.Wait() // Wait for reset of the db to complete
+}
+
 //Add produce to the db
 func AddProduce(produce produce.Produce) (bool, produce.Produce) {
 	var added = false     //Initialize added to false (Indicates if Produce was added successfully)
@@ -86,7 +120,7 @@ func AddProduce(produce produce.Produce) (bool, produce.Produce) {
 		}
 	}()
 
-	wg.Wait() // Wait for read from the db to complete
+	wg.Wait() // Wait for add to the db to complete
 
 	return added, produce
 }
@@ -115,12 +149,13 @@ func DeleteProduce(code string) bool {
 		}
 	}()
 
-	wg.Wait() // Wait for read from the db to complete
+	wg.Wait() // Wait for delete from the db to complete
 
 	return produceFound
 }
 
 //Check if the provided code matches any in the DB
+//Does not start it's own GoRoutine since it is called from a db GoRoutine
 func isCodeUnique(code string) bool {
 	var unique = true //Initialize unique to true(Set to false if code found in DB)
 

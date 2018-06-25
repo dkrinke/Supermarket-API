@@ -54,6 +54,9 @@ http://api.krinkes.com/
     &nbsp;&nbsp;&nbsp;&nbsp;"Price": "$1.11"  
     }  
   - Returns: Success or Failure with messages containing the reason
+- POST http://api.krinkes.com/api/v1/produce/reset (Demo purposes)
+  - Payload: None
+  - Returns: 204 No Content
 - DELETE http://api.krinkes.com/api/v1/produce
   - Payload:  
     {  

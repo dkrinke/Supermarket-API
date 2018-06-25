@@ -40,6 +40,7 @@ func main() {
 	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", service.GetAllProduce).Methods("GET")
 	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/{code}", service.GetProduceByCode).Methods("GET")
 	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", service.AddProduce).Methods("POST")
+	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/reset", service.ResetProduceData).Methods("POST") //Reset date to default (Demo purposes)
 	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", service.DeleteProduce).Methods("DELETE")
 	/****************************************************************************/
 

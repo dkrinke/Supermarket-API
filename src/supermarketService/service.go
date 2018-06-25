@@ -88,6 +88,12 @@ func GetProduceByCode(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Resets the db data to default (For demo purposes)
+func ResetProduceData(w http.ResponseWriter, r *http.Request) {
+	db.ResetData()                      //Resets the db data to default
+	w.WriteHeader(http.StatusNoContent) //Set status to No Content
+}
+
 //Add Produce to the db
 //The produce added is return upon a successful add
 func AddProduce(w http.ResponseWriter, r *http.Request) {

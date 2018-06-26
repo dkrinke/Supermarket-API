@@ -34,8 +34,8 @@ var (
 //Retrieve produce with matching code
 func Read(code string) (bool, supermarketProduce.Produce) {
 	var locatedProduce supermarketProduce.Produce //Create Produce Object
-	var located = false                //Initialize located to false (Indicates if Produce was found)
-	var wg sync.WaitGroup              //Create WaitGroup
+	var located = false                           //Initialize located to false (Indicates if Produce was found)
+	var wg sync.WaitGroup                         //Create WaitGroup
 
 	//Start async task to read from db
 	wg.Add(1)   //Add one to WaitGroup
@@ -57,7 +57,7 @@ func Read(code string) (bool, supermarketProduce.Produce) {
 //Retrieve all produce
 func ReadAll() []supermarketProduce.Produce {
 	var locatedProduce []supermarketProduce.Produce //Create Produce Object List
-	var wg sync.WaitGroup                //Create WaitGroup
+	var wg sync.WaitGroup                           //Create WaitGroup
 
 	//Start async task to read from db
 	wg.Add(1)   //Add one to WaitGroup

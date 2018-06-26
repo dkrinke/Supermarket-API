@@ -1,8 +1,8 @@
 package supermarketService
 
 import (
+	"encoding/json" //For creating JSON responses
 	"fmt"
-	"encoding/json"          //For creating JSON responses
 	"github.com/gorilla/mux" //Router that will take requests and decide what should be done (go get github.com/gorilla/mux)
 	"net/http"               //Provides the representation of HTTP requests, responses, and is Responsible for running the server
 	"regexp"                 //Regular Expressions
@@ -57,7 +57,7 @@ type DeleteRequestObject struct {
 
 //GetAllProduce returns a list of produce back to the client
 func GetAllProduce(w http.ResponseWriter, r *http.Request) {
-	locatedProduce := supermarketDB.ReadAll()            //Retrieve all produce from db
+	locatedProduce := supermarketDB.ReadAll() //Retrieve all produce from db
 	w.WriteHeader(http.StatusOK)              //Set status to OK
 	json.NewEncoder(w).Encode(locatedProduce) //Return list of produce
 }
@@ -91,7 +91,7 @@ func GetProduceByCode(w http.ResponseWriter, r *http.Request) {
 
 //Resets the db data to default (For demo purposes)
 func ResetProduceData(w http.ResponseWriter, r *http.Request) {
-	supermarketDB.ResetData()                      //Resets the db data to default
+	supermarketDB.ResetData()           //Resets the db data to default
 	w.WriteHeader(http.StatusNoContent) //Set status to No Content
 }
 
@@ -102,7 +102,7 @@ func AddProduce(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body) //Decode the body
 
 	var incomingProduce supermarketProduce.Produce //Create Produce object
-	decoder.Decode(&incomingProduce)    //Save body data to the Produce object
+	decoder.Decode(&incomingProduce)               //Save body data to the Produce object
 
 	//Perform validation on incoming Produce
 	//resultString: Success/Failure

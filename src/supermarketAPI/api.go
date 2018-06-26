@@ -36,13 +36,13 @@ func main() {
 	router.HandleFunc("/", handler).Methods("GET")                //Will provide informaton about the application
 	router.HandleFunc("/healthcheck", healthCheck).Methods("GET") //Health Check
 
-	/**********************Produce API Version One*******************************/
-	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", service.GetAllProduce).Methods("GET")
-	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/{code}", service.GetProduceByCode).Methods("GET")
-	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", service.AddProduce).Methods("POST")
-	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/reset", service.ResetProduceData).Methods("POST") //Reset date to default (Demo purposes)
-	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", service.DeleteProduce).Methods("DELETE")
-	/****************************************************************************/
+	/**********************Produce API Version One********************************/
+	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", supermarketService.GetAllProduce).Methods("GET")
+	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/{code}", supermarketService.GetProduceByCode).Methods("GET")
+	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", supermarketService.AddProduce).Methods("POST")
+	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/reset", supermarketService.ResetProduceData).Methods("POST") //Reset date to default (Demo purposes)
+	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/{code}", supermarketService.DeleteProduce).Methods("DELETE")
+	/*****************************************************************************/
 
 	fmt.Println("Running server!")
 	log.Fatal(http.ListenAndServe(":8080", router))

@@ -1,7 +1,8 @@
-package service
+package supermarketService
 
 import (
-	"encoding/json"          //For creating JSON responses
+	"encoding/json" //For creating JSON responses
+	"fmt"
 	"github.com/gorilla/mux" //Router that will take requests and decide what should be done (go get github.com/gorilla/mux)
 	"net/http"               //Provides the representation of HTTP requests, responses, and is Responsible for running the server
 	"regexp"                 //Regular Expressions
@@ -37,7 +38,7 @@ const (
 type ProduceResponseObject struct {
 	Result  string
 	Message string
-	Produce produce.Produce
+	Produce supermarketProduce.Produce
 }
 
 //Reponse object
@@ -56,7 +57,7 @@ type DeleteRequestObject struct {
 
 //GetAllProduce returns a list of produce back to the client
 func GetAllProduce(w http.ResponseWriter, r *http.Request) {
-	locatedProduce := db.ReadAll()            //Retrieve all produce from db
+	locatedProduce := supermarketDB.ReadAll() //Retrieve all produce from db
 	w.WriteHeader(http.StatusOK)              //Set status to OK
 	json.NewEncoder(w).Encode(locatedProduce) //Return list of produce
 }
@@ -70,7 +71,7 @@ func GetProduceByCode(w http.ResponseWriter, r *http.Request) {
 
 	//Retrieve produce(locatedProduce) with matching code from db
 	//locatedBoolean is true/false indicating if the produce was found
-	locatedBoolean, locatedProduce := db.Read(code)
+	locatedBoolean, locatedProduce := supermarketDB.Read(code)
 
 	if locatedBoolean { //If produce was found
 		var successObject ProduceResponseObject  //Create Response object
@@ -90,7 +91,7 @@ func GetProduceByCode(w http.ResponseWriter, r *http.Request) {
 
 //Resets the db data to default (For demo purposes)
 func ResetProduceData(w http.ResponseWriter, r *http.Request) {
-	db.ResetData()                      //Resets the db data to default
+	supermarketDB.ResetData()           //Resets the db data to default
 	w.WriteHeader(http.StatusNoContent) //Set status to No Content
 }
 
@@ -100,8 +101,8 @@ func AddProduce(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(r.Body) //Decode the body
 
-	var incomingProduce produce.Produce //Create Produce object
-	decoder.Decode(&incomingProduce)    //Save body data to the Produce object
+	var incomingProduce supermarketProduce.Produce //Create Produce object
+	decoder.Decode(&incomingProduce)               //Save body data to the Produce object
 
 	//Perform validation on incoming Produce
 	//resultString: Success/Failure
@@ -111,7 +112,7 @@ func AddProduce(w http.ResponseWriter, r *http.Request) {
 
 	if resultBoolean { //If Passed validation
 		//Add Produce to DB
-		var added, savedProduce = db.AddProduce(incomingProduce)
+		var added, savedProduce = supermarketDB.AddProduce(incomingProduce)
 		if added { //If added successfully //Return Response object
 			var resultObject ProduceResponseObject  //Create Response object
 			resultObject.Result = resultString      //Set result (Indicate success)
@@ -138,16 +139,15 @@ func AddProduce(w http.ResponseWriter, r *http.Request) {
 //Delete Produce from the db
 //The produce deleted is based on the provided code
 func DeleteProduce(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Delete Called")
 
-	decoder := json.NewDecoder(r.Body) //Decode the body
+	//Get code from request
+	var code = getCode(r)
 
-	var incomingDeleteRequest DeleteRequestObject //Create Delete request
-	decoder.Decode(&incomingDeleteRequest)        //Save body to the Delete request
-
-	var code = incomingDeleteRequest.Code //Save Code from the Delete request
+	fmt.Println(code)
 
 	if validateCode(code) { //If the code validates
-		if db.DeleteProduce(code) { //If produce is found and deleted with the provided code
+		if supermarketDB.DeleteProduce(code) { //If produce is found and deleted with the provided code
 			var successObject ResponseObject         //Create Response object
 			successObject.Result = success           //Indicate success
 			successObject.Message = removed          //Indicate Produce was removed
@@ -176,7 +176,7 @@ func getCode(r *http.Request) string {
 }
 
 //validateProduce is used to validate Produce objects
-func validateProduce(produce produce.Produce) (string, string, bool) {
+func validateProduce(produce supermarketProduce.Produce) (string, string, bool) {
 
 	var resultBoolean bool   //Is true if validation passes
 	var resultString string  //Indicates Success/Failure

@@ -1,4 +1,4 @@
-package db
+package supermarketDB
 
 import (
 	"supermarketProduce" //Provides the Produce Struct
@@ -7,23 +7,23 @@ import (
 
 var (
 	//db instantiated with default data
-	database = []produce.Produce{
-		produce.Produce{ //Required Lettuce
+	database = []supermarketProduce.Produce{
+		supermarketProduce.Produce{ //Required Lettuce
 			Name:  "Lettuce",
 			Code:  "A12T-4GH7-QPL9-3N4M",
 			Price: "$3.46",
 		},
-		produce.Produce{ //Required Peach
+		supermarketProduce.Produce{ //Required Peach
 			Name:  "Peach",
 			Code:  "E5T6-9UI3-TH15-QR88",
 			Price: "$2.99",
 		},
-		produce.Produce{ //Required Green Pepper
+		supermarketProduce.Produce{ //Required Green Pepper
 			Name:  "Green Pepper",
 			Code:  "YRT6-72AS-K736-L4AR",
 			Price: "$0.79",
 		},
-		produce.Produce{ //Required Gala Apple
+		supermarketProduce.Produce{ //Required Gala Apple
 			Name:  "Gala Apple",
 			Code:  "TQ4C-VV6T-75ZX-1RMR",
 			Price: "$3.59",
@@ -32,10 +32,10 @@ var (
 )
 
 //Retrieve produce with matching code
-func Read(code string) (bool, produce.Produce) {
-	var locatedProduce produce.Produce //Create Produce Object
-	var located = false                //Initialize located to false (Indicates if Produce was found)
-	var wg sync.WaitGroup              //Create WaitGroup
+func Read(code string) (bool, supermarketProduce.Produce) {
+	var locatedProduce supermarketProduce.Produce //Create Produce Object
+	var located = false                           //Initialize located to false (Indicates if Produce was found)
+	var wg sync.WaitGroup                         //Create WaitGroup
 
 	//Start async task to read from db
 	wg.Add(1)   //Add one to WaitGroup
@@ -55,9 +55,9 @@ func Read(code string) (bool, produce.Produce) {
 }
 
 //Retrieve all produce
-func ReadAll() []produce.Produce {
-	var locatedProduce []produce.Produce //Create Produce Object List
-	var wg sync.WaitGroup                //Create WaitGroup
+func ReadAll() []supermarketProduce.Produce {
+	var locatedProduce []supermarketProduce.Produce //Create Produce Object List
+	var wg sync.WaitGroup                           //Create WaitGroup
 
 	//Start async task to read from db
 	wg.Add(1)   //Add one to WaitGroup
@@ -78,23 +78,23 @@ func ResetData() {
 	wg.Add(1)   //Add one to WaitGroup
 	go func() { //Start GoRoutine
 		defer wg.Done() //Execute at the end of this Routine
-		database = []produce.Produce{
-			produce.Produce{ //Required Lettuce
+		database = []supermarketProduce.Produce{
+			supermarketProduce.Produce{ //Required Lettuce
 				Name:  "Lettuce",
 				Code:  "A12T-4GH7-QPL9-3N4M",
 				Price: "$3.46",
 			},
-			produce.Produce{ //Required Peach
+			supermarketProduce.Produce{ //Required Peach
 				Name:  "Peach",
 				Code:  "E5T6-9UI3-TH15-QR88",
 				Price: "$2.99",
 			},
-			produce.Produce{ //Required Green Pepper
+			supermarketProduce.Produce{ //Required Green Pepper
 				Name:  "Green Pepper",
 				Code:  "YRT6-72AS-K736-L4AR",
 				Price: "$0.79",
 			},
-			produce.Produce{ //Required Gala Apple
+			supermarketProduce.Produce{ //Required Gala Apple
 				Name:  "Gala Apple",
 				Code:  "TQ4C-VV6T-75ZX-1RMR",
 				Price: "$3.59",
@@ -106,7 +106,7 @@ func ResetData() {
 }
 
 //Add produce to the db
-func AddProduce(produce produce.Produce) (bool, produce.Produce) {
+func AddProduce(produce supermarketProduce.Produce) (bool, supermarketProduce.Produce) {
 	var added = false     //Initialize added to false (Indicates if Produce was added successfully)
 	var wg sync.WaitGroup //Create WaitGroup
 

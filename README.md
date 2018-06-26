@@ -57,9 +57,6 @@ http://api.krinkes.com/
 - POST http://api.krinkes.com/api/v1/produce/reset (Demo purposes)
   - Payload: None
   - Returns: 204 No Content
-- DELETE http://api.krinkes.com/api/v1/produce
-  - Payload:  
-    {  
-    &nbsp;&nbsp;&nbsp;&nbsp;"Code": "123A-123A-123A-124A"
-    }  
+- DELETE http://api.krinkes.com/api/v1/produce/123A-123A-123A-124A
+  - Payload: None
   - Returns: Success or Failure with messages containing the reason

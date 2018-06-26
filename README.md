@@ -13,14 +13,20 @@ These instructions will get you a copy of the project up and running on your loc
 
 #### GitHub
 1. Clone this repo
-2. Set the GOPATH to the route directory
+2. Set the GOPATH to the root directory
 3. Run go get github.com/gorilla/mux
 
 #### DockerHub
 1. Run: docker pull dkrinke/supermarketapi:latest
 
 ## Running the tests
+
+### Unit Tests
 1. Run go test ./...
+
+### Integration Tests
+1. Run docker run -d -p 127.0.0.1:9000:8080 --name supermarket-api dkrinke/supermarketapi:latest
+2. Run go test ./src/supermarketAPI -integration
 
 ## Deployment
 

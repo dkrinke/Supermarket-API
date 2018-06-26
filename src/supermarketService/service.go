@@ -1,6 +1,7 @@
 package supermarketService
 
 import (
+	"fmt"
 	"encoding/json"          //For creating JSON responses
 	"github.com/gorilla/mux" //Router that will take requests and decide what should be done (go get github.com/gorilla/mux)
 	"net/http"               //Provides the representation of HTTP requests, responses, and is Responsible for running the server
@@ -138,13 +139,12 @@ func AddProduce(w http.ResponseWriter, r *http.Request) {
 //Delete Produce from the db
 //The produce deleted is based on the provided code
 func DeleteProduce(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Delete Called")
 
-	decoder := json.NewDecoder(r.Body) //Decode the body
+	//Get code from request
+	var code = getCode(r)
 
-	var incomingDeleteRequest DeleteRequestObject //Create Delete request
-	decoder.Decode(&incomingDeleteRequest)        //Save body to the Delete request
-
-	var code = incomingDeleteRequest.Code //Save Code from the Delete request
+	fmt.Println(code)
 
 	if validateCode(code) { //If the code validates
 		if supermarketDB.DeleteProduce(code) { //If produce is found and deleted with the provided code

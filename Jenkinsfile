@@ -34,6 +34,13 @@ node('master') {
             sh 'docker build -t dkrinke/supermarketapi:latest . -f ./src/supermarketAPI/Dockerfile'
           }
 
+          stage('Integration Test') {
+            sh 'docker run -d -p 127.0.0.1:9000:8080 --name supermarket-api dkrinke/supermarketapi:latest'
+            sh 'go test ./src/supermarketAPI -integration'
+            sh 'docker stop supermarket-api'
+            sh 'docker rm supermarket-api'
+          }
+
           stage('Publish Image') {
             //Publish the docker image to dockerhub
             withDockerRegistry([ credentialsId: "7f19ca19-c670-4382-a759-978c181f242c", url: "" ]) {

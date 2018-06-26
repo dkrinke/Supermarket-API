@@ -41,7 +41,7 @@ func main() {
 	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/{code}", supermarketService.GetProduceByCode).Methods("GET")
 	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", supermarketService.AddProduce).Methods("POST")
 	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/reset", supermarketService.ResetProduceData).Methods("POST") //Reset date to default (Demo purposes)
-	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce", supermarketService.DeleteProduce).Methods("DELETE")
+	router.PathPrefix("/api/v1").Subrouter().HandleFunc("/produce/{code}", supermarketService.DeleteProduce).Methods("DELETE")
 	/****************************************************************************/
 
 	fmt.Println("Running server!")

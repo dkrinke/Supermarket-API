@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	baseUrl        = "http://localhost:8080" //Port 9000 for integration tests only
+	baseUrl        = "http://localhost:9000" //Port 9000 for integration tests only
 	healthCheckUrl = "/healthcheck"
 	apiUrl         = "/api"
 	v1Url          = "/v1"

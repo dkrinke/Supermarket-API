@@ -1,4 +1,4 @@
-package service
+package supermarketService
 
 import "testing"
 import "supermarketProduce"
@@ -6,7 +6,7 @@ import "supermarketProduce"
 /********************************Test Validate Produce**************************/
 func TestValidateProducePass(t *testing.T) {
 	//Build produce object with valid data
-	var produce = produce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1.20"}
+	var produce = supermarketProduce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1.20"}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != true {                      //Check if validation passed
 		t.Errorf("Result was incorrect, got: %t, want: true.", resultBoolean)
@@ -15,7 +15,7 @@ func TestValidateProducePass(t *testing.T) {
 
 func TestValidateProduceFailureInvalidName(t *testing.T) {
 	//Build produce object with an invalid name
-	var produce = produce.Produce{Name: "Green @pples", Code: "123A-123A-123A-123A", Price: "$1.20"}
+	var produce = supermarketProduce.Produce{Name: "Green @pples", Code: "123A-123A-123A-123A", Price: "$1.20"}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != false {                     //Check if validation failed
 		t.Errorf("Result was incorrect, got: %t, want: false.", resultBoolean)
@@ -24,7 +24,7 @@ func TestValidateProduceFailureInvalidName(t *testing.T) {
 
 func TestValidateProduceFailureInvalidCode_1(t *testing.T) {
 	//Build produce object with an invalid code
-	var produce = produce.Produce{Name: "Green Apples", Code: "123@-123A-123A-123A", Price: "$1.20"}
+	var produce = supermarketProduce.Produce{Name: "Green Apples", Code: "123@-123A-123A-123A", Price: "$1.20"}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != false {                     //Check if validation failed
 		t.Errorf("Result was incorrect, got: %t, want: false.", resultBoolean)
@@ -33,7 +33,7 @@ func TestValidateProduceFailureInvalidCode_1(t *testing.T) {
 
 func TestValidateProduceFailureInvalidCode_2(t *testing.T) {
 	//Build produce object with an invalid code
-	var produce = produce.Produce{Name: "Green Apples", Code: "123A-123A-123A", Price: "$1.20"}
+	var produce = supermarketProduce.Produce{Name: "Green Apples", Code: "123A-123A-123A", Price: "$1.20"}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != false {                     //Check if validation failed
 		t.Errorf("Result was incorrect, got: %t, want: false.", resultBoolean)
@@ -42,7 +42,7 @@ func TestValidateProduceFailureInvalidCode_2(t *testing.T) {
 
 func TestValidateProduceFailureInvalidCode_3(t *testing.T) {
 	//Build produce object with an invalid code
-	var produce = produce.Produce{Name: "Green Apples", Code: "123A123A123A123A", Price: "$1.20"}
+	var produce = supermarketProduce.Produce{Name: "Green Apples", Code: "123A123A123A123A", Price: "$1.20"}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != false {                     //Check if validation failed
 		t.Errorf("Result was incorrect, got: %t, want: false.", resultBoolean)
@@ -51,7 +51,7 @@ func TestValidateProduceFailureInvalidCode_3(t *testing.T) {
 
 func TestValidateProduceFailureInvalidPrice_1(t *testing.T) {
 	//Build produce object with an invalid price
-	var produce = produce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1.201"}
+	var produce = supermarketProduce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1.201"}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != false {                     //Check if validation failed
 		t.Errorf("Result was incorrect, got: %t, want: false.", resultBoolean)
@@ -60,7 +60,7 @@ func TestValidateProduceFailureInvalidPrice_1(t *testing.T) {
 
 func TestValidateProduceFailureInvalidPrice_2(t *testing.T) {
 	//Build produce object with an invalid price
-	var produce = produce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1.2"}
+	var produce = supermarketProduce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1.2"}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != false {                     //Check if validation failed
 		t.Errorf("Result was incorrect, got: %t, want: false.", resultBoolean)
@@ -69,7 +69,7 @@ func TestValidateProduceFailureInvalidPrice_2(t *testing.T) {
 
 func TestValidateProduceFailureInvalidPrice_3(t *testing.T) {
 	//Build produce object with an invalid price
-	var produce = produce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1."}
+	var produce = supermarketProduce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1."}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != false {                     //Check if validation failed
 		t.Errorf("Result was incorrect, got: %t, want: false.", resultBoolean)
@@ -78,7 +78,7 @@ func TestValidateProduceFailureInvalidPrice_3(t *testing.T) {
 
 func TestValidateProduceFailureInvalidPrice_4(t *testing.T) {
 	//Build produce object with an invalid price
-	var produce = produce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1"}
+	var produce = supermarketProduce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "$1"}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != false {                     //Check if validation failed
 		t.Errorf("Result was incorrect, got: %t, want: false.", resultBoolean)
@@ -87,7 +87,7 @@ func TestValidateProduceFailureInvalidPrice_4(t *testing.T) {
 
 func TestValidateProduceFailureInvalidPrice_5(t *testing.T) {
 	//Build produce object with an invalid price
-	var produce = produce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "1.20"}
+	var produce = supermarketProduce.Produce{Name: "Green Apples", Code: "123A-123A-123A-123A", Price: "1.20"}
 	_, _, resultBoolean := validateProduce(produce) //Validate and save the boolean result
 	if resultBoolean != false {                     //Check if validation failed
 		t.Errorf("Result was incorrect, got: %t, want: false.", resultBoolean)

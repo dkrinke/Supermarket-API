@@ -1,4 +1,4 @@
-package db
+package supermarketDB
 
 import "testing"
 import "supermarketProduce"
@@ -92,7 +92,7 @@ func TestReadGalaApple(t *testing.T) {
 func TestAddProduce(t *testing.T) {
 
 	//Build produce object with valid produce data
-	var produce = produce.Produce{Name: "Golden Apple", Code: "123A-456B-789C-DEFG", Price: "$99.99"}
+	var produce = supermarketProduce.Produce{Name: "Golden Apple", Code: "123A-456B-789C-DEFG", Price: "$99.99"}
 	_, addProduceResult := AddProduce(produce) //Add produce and save the returned produce object
 
 	if addProduceResult.Name != produce.Name { //Check if name matched the expected name
@@ -111,7 +111,7 @@ func TestAddProduce(t *testing.T) {
 func TestAddProduceFailureNonUniqueCode(t *testing.T) {
 
 	//Build produce object with valid produce data, but with a non-unique code
-	var produce = produce.Produce{Name: "Golden Apple", Code: "123A-456B-789C-DEFG", Price: "$99.99"}
+	var produce = supermarketProduce.Produce{Name: "Golden Apple", Code: "123A-456B-789C-DEFG", Price: "$99.99"}
 	addProduceBoolean, _ := AddProduce(produce) //Add produce and save the returned boolean indicating Success/Failure
 
 	if addProduceBoolean != false { //The boolean should be false indicating that the produce was rejected
